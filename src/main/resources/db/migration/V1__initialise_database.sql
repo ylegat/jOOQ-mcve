@@ -8,3 +8,10 @@ CREATE TABLE mcve.test (
   
   CONSTRAINT pk_test PRIMARY KEY (id) 
 );
+
+CREATE TABLE mcve.test2 (
+  id    INT NOT NULL AUTO_INCREMENT,
+  value INT,
+
+  CONSTRAINT pk_test2 PRIMARY KEY (id)
+);

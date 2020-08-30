@@ -37,19 +37,17 @@
  */
 package org.jooq.mcve.test;
 
-import static org.jooq.mcve.Tables.TEST;
-import static org.junit.Assert.assertEquals;
+import org.jooq.DSLContext;
+import org.jooq.impl.DSL;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.jooq.mcve.tables.records.TestRecord;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import static org.jooq.mcve.Tables.TEST;
+import static org.jooq.mcve.Tables.TEST2;
 
 public class MCVETest {
 
@@ -71,14 +69,6 @@ public class MCVETest {
 
     @Test
     public void mcveTest() {
-        TestRecord result =
-        ctx.insertInto(TEST)
-           .columns(TEST.VALUE)
-           .values(42)
-           .returning(TEST.ID)
-           .fetchOne();
-
-        result.refresh();
-        assertEquals(42, (int) result.getValue());
+        ctx.select().from(TEST).forUpdate().union(ctx.select().from(TEST2).forUpdate()).fetch();
     }
 }
